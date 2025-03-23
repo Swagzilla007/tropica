@@ -1,17 +1,55 @@
-# hotel-booking
+# Tropica Hotel - Online Booking System
 
-**Online Hotel Booking &amp; Management System**
+A complete hotel booking and management system for Tropica Hotel located in Chilaw, Sri Lanka.
 
-**User Role**
+## Features
 
-- User can view Room facilities, price and availability of the room
-- They can book their desire room from online.
+### Guest Features
 
-**Admin Role**
+- View luxury rooms and their facilities
+- Check room availability for specific dates
+- Make online room reservations
+- View room rates and special offers
+- Browse photo gallery of hotel and rooms
+- Submit reviews and feedback
+- Access contact information
 
-- Secure Login System for Admin Panel
-- Add, Delete, Edit Room Facilities
-- Add, Delete, Edit Room Category
-- ADD, Remove, Edit Number of Rooms
-- View Booked Room
-- Add new Admin
+### Admin Features
+
+- Secure admin login system
+- Manage room categories
+  - Add new room types
+  - Edit existing room details
+  - Delete room categories
+- Manage room inventory
+  - Add/remove rooms
+  - Update room status
+  - Set room availability
+- Track bookings
+  - View all reservations
+  - Edit booking details
+  - Check-in/check-out management
+- User Management
+  - Add new admin users
+  - Manage admin permissions
+
+## Technology Stack
+
+- PHP
+- MySQL
+- Bootstrap
+- jQuery
+- HTML/CSS
+- JavaScript
+
+## Setup Instructions
+
+1. Install XAMPP server
+2. Clone repository to c:\xampp\htdocs\tropica
+3. Import database from SQL file
+4. Configure database connection
+5. Access via localhost/tropica
+
+## Developer
+
+Developed by wkgayathra
