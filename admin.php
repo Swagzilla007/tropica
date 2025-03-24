@@ -26,6 +26,7 @@ if(isset($_GET['q']))
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/shared-styles.css" rel="stylesheet">
 
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 

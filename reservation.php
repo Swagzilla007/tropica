@@ -37,7 +37,8 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="css/shared-styles.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
     
       <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -70,14 +71,13 @@
         h4 {
             color: #ffbb2b;
         }
-        h6
+        h6, label
         {
             color: navajowhite;
             font-family:  monospace;
         }
         label
         {
-            color:#ffbb2b;
             font-size: 13px;
             font-weight: 100;
         }

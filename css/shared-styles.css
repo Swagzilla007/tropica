@@ -1,0 +1,86 @@
+/* Navbar Styles */
+.navbar-inverse {
+    background-color: rgba(0,0,0,0.8);
+    border: none;
+    margin-bottom: 0;
+    animation: none !important;
+    transform: none !important;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 20px 15px;
+    transition: color 0.3s ease;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    color: #ffbb2b;
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+    background-color: transparent;
+    color: #ffbb2b;
+}
+
+/* Social Icons */
+.social-icon {
+    width: 24px;
+    height: 24px;
+    margin-top: -5px;
+    transition: transform 0.3s;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+}
+
+/* Page Transition Styles */
+body {
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+}
+
+body.fade-out {
+    opacity: 0;
+}
+
+.container {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fixed Elements */
+.banner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0,0,0,0.85);
+    /* Remove any animations from fixed elements */
+    animation: none;
+    transform: none;
+}
+
+/* Disable animations for fixed elements */
+.banner-container,
+.navbar-inverse {
+    animation: none !important;
+    transform: none !important;
+}

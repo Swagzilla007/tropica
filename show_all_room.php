@@ -19,40 +19,23 @@ $user=new User();
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-    
+    <link href="css/shared-styles.css" rel="stylesheet">
     
     <style>
-          
         .well {
             background: rgba(0, 0, 0, 0.7);
             border: none;
             height: 200px;
         }
         
-        body {
-            background-image: url('images/home.jpg');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-        }
-        
         h4 {
             color: #ffbb2b;
         }
-        h6
-        {
+        
+        h6 {
             color: navajowhite;
-            font-family:  monospace;
+            font-family: monospace;
         }
-        .social-icon {
-            width: 24px;
-            height: 24px;
-            margin-top: -5px;
-        }
-
-
     </style>
     
     
