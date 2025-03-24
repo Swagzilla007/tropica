@@ -1,19 +1,21 @@
 <?php
+session_start();
 include_once 'admin/include/class.user.php'; 
 $user=new User(); 
 
 $roomname=$_GET['roomname'];
 
-if(isset($_REQUEST[ 'submit'])) 
+if(isset($_REQUEST['submit'])) 
 { 
     extract($_REQUEST);
-    $result=$user->booknow($checkin, $checkout, $name, $phone, $roomname);
-    if($result)
-    {
-        echo "<script type='text/javascript'>
-              alert('".$result."');
-         </script>";
-    }
+    $result = $user->booknow($checkin, $checkout, $name, $phone, $roomname);
+    
+    // Store booking result in session
+    $_SESSION['booking_result'] = $result;
+    
+    // Redirect to prevent form resubmission
+    header("Location: booking_confirmation.php");
+    exit();
 }
 ?>
 

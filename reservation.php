@@ -77,14 +77,52 @@
             margin-bottom: 30px;
         }
         
+        .form-group label {
+            color: #fff;  /* Make field labels white */
+        }
+        
         .datepicker {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.7);  /* Darker background */
             border: 1px solid rgba(255, 187, 43, 0.2);
             border-radius: 8px;
-            color: #fff;
+            color: #fff !important;  /* White text for input value */
             padding: 10px 15px;
             width: 100%;
             margin-bottom: 15px;
+        }
+        
+        /* Hide datepicker button backgrounds */
+        .ui-datepicker-trigger {
+            background: transparent;
+            border: none;
+        }
+        
+        /* Update calendar popup styles */
+        .ui-datepicker {
+            background: rgba(0, 0, 0, 0.9) !important;
+            color: #fff !important;
+        }
+        
+        .ui-datepicker th {
+            color: #ffbb2b !important;  /* Column headers in gold */
+        }
+        
+        .ui-datepicker td {
+            background: transparent !important;
+        }
+        
+        .ui-datepicker td a {
+            background: transparent !important;
+            color: #fff !important;
+        }
+        
+        .ui-datepicker td a:hover {
+            background: rgba(255, 187, 43, 0.2) !important;
+        }
+        
+        /* Style the datepicker placeholder text */
+        .datepicker::placeholder {
+            color: rgba(255, 255, 255, 0.7);
         }
         
         .btn-check {
@@ -104,6 +142,24 @@
             transform: scale(1.05);
         }
         
+        .btn-booking {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            padding: 10px 25px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .btn-booking:hover {
+            background-color: #ffbb2b;
+            color: #000;
+            transform: scale(1.05);
+        }
+
         .available-rooms {
             margin-top: 30px;
         }
@@ -196,48 +252,42 @@
 
         <div class="results-section">
             <?php   
-            
-            if(isset($_REQUEST[ 'submit']))
+            if(isset($_REQUEST['submit']))
             {
-                if(mysqli_num_rows($result) > 0)
+                if($result && mysqli_num_rows($result) > 0)
                 {
+                    // Add date range display
+                    echo "<div class='text-center' style='color: #ffbb2b; margin-bottom: 20px;'>
+                            <h4>Available Rooms for: ".htmlspecialchars($checkin)." to ".htmlspecialchars($checkout)."</h4>
+                          </div>";
+                    
                     while($row = mysqli_fetch_array($result))
                     {
-                        
-                        $room_cat=$row['room_cat'];
-                        $sql="SELECT * FROM room_category WHERE roomname='$room_cat'";
-                        $query = mysqli_query($user->db, $sql);
-                        $row2 = mysqli_fetch_array($query);
-                        
-                       echo "
-                                <div class='row'>
-                                <div class='col-md-4'></div>
-                                <div class='col-md-5 well'>
-                                    <h4>".$row2['roomname']."</h4><hr>
-                                    <h6>No of Beds: ".$row2['no_bed']." ".$row2['bedtype']." bed.</h6>
-                                    <h6>Available Rooms: ".$row2['available']."</h6>
-                                    <h6>Facilities: ".$row2['facility']."</h6>
-                                    <h6>Price: ".$row2['price']." tk/night.</h6>
-                                </div>
-                                <div class='col-md-3'>
-                                    <a href='./booknow.php?roomname=".$row2['roomname']."'><button class='btn btn-primary button'>Book Now</button></a>
-                                </div>   
-                                </div>
-                                
-                                
-                            
-                        
-                             ";
-                        
-                        
+                        echo "
+                            <div class='row'>
+                            <div class='col-md-4'></div>
+                            <div class='col-md-5 well'>
+                                <h4>".$row['roomname']."</h4><hr>
+                                <h6>No of Beds: ".$row['no_bed']." ".$row['bedtype']." bed.</h6>
+                                <h6>Available Rooms: <span style='color: #ffbb2b'>".$row['available_rooms']."</span> out of ".$row['total_rooms']."</h6>
+                                <h6>Facilities: ".$row['facility']."</h6>
+                                <h6>Price: ".$row['price']." tk/night.</h6>
+                            </div>
+                            <div class='col-md-3'>
+                                <a href='./booknow.php?roomname=".$row['roomname']."&checkin=".$checkin."&checkout=".$checkout."'>
+                                    <button class='btn btn-booking'>Book Now</button>
+                                </a>
+                            </div>   
+                            </div>";
                     }
-                    
-                    
-                              
+                }
+                else
+                {
+                    echo "<div class='alert alert-warning text-center'>
+                            <h4>No rooms available for the selected dates.</h4>
+                          </div>";
                 }
             }
-            
-            
             ?>
         </div>
     </div>

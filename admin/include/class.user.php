@@ -53,60 +53,108 @@
 
             }
             
-            public function check_available($checkin, $checkout)
+            public function check_available($checkin, $checkout) 
             {
-                
-                
-                   $sql="SELECT DISTINCT room_cat FROM rooms WHERE room_id NOT IN (SELECT DISTINCT room_id
-   FROM rooms WHERE (checkin <= '$checkin' AND checkout >='$checkout') OR (checkin >= '$checkin' AND checkin <='$checkout') OR (checkin <= '$checkin' AND checkout >='$checkin') )";
-                    $check= mysqli_query($this->db,$sql)  or die(mysqli_connect_errno()."Query Doesnt run");;
+                // First validate dates
+                if(strtotime($checkout) <= strtotime($checkin)) {
+                    return false;
+                }
 
-                
-                    return $check;
-                
+                // Get room categories with available room count for selected dates
+                $sql = "SELECT rc.*, 
+                        (
+                            SELECT COUNT(*) 
+                            FROM rooms r 
+                            WHERE r.room_cat = rc.roomname 
+                            AND (
+                                r.book = 'false' 
+                                OR (r.book = 'true' AND 
+                                    (r.checkout < '$checkin' OR r.checkin > '$checkout')
+                                )
+                            )
+                        ) as available_rooms,
+                        (
+                            SELECT COUNT(*) 
+                            FROM rooms r 
+                            WHERE r.room_cat = rc.roomname
+                        ) as total_rooms
+                        FROM room_category rc
+                        HAVING available_rooms > 0";
 
+                $check = mysqli_query($this->db, $sql);
+                if(!$check) {
+                    error_log("Query failed: " . mysqli_error($this->db));
+                    return false;
+                }
+                return $check;
             }
             
-            
-            
-            
-            public function booknow($checkin, $checkout, $name, $phone,$roomname)
+            public function booknow($checkin, $checkout, $name, $phone, $roomname)
             {
-                    
-                    $sql="SELECT * FROM rooms WHERE room_cat='$roomname' AND (room_id NOT IN (SELECT DISTINCT room_id
-   FROM rooms WHERE checkin <= '$checkin' AND checkout >='$checkout'))";
-                    $check= mysqli_query($this->db,$sql)  or die(mysqli_connect_errno()."Data herecannot inserted");;
-                 
-                    if(mysqli_num_rows($check) > 0)
-                    {
-                        $row = mysqli_fetch_array($check);
-                        $id=$row['room_id'];
+                // Debug info
+                error_log("Attempting to book room category: " . $roomname);
+                
+                // Get available room in the category
+                $sql = "SELECT * FROM rooms 
+                        WHERE room_cat = '" . mysqli_real_escape_string($this->db, $roomname) . "' 
+                        AND book = 'false' 
+                        LIMIT 1";
                         
-                        $sql2="UPDATE rooms  SET checkin='$checkin', checkout='$checkout', name='$name', phone='$phone', book='true' WHERE room_id=$id";
-                         $send=mysqli_query($this->db,$sql2);
-                        if($send)
-                        {
-                            $result="Your Room has been booked!!";
-                        }
-                        else
-                        {
-                            $result="Sorry, Internel Error";
-                        }
-                    }
-                    else                       
-                    {
-                        $result = "No Room Is Available";
-                    }
-                    
-                    
+                $check = mysqli_query($this->db, $sql);
                 
-                    return $result;
+                if(!$check) {
+                    error_log("Query failed: " . mysqli_error($this->db));
+                    return "Database error: " . mysqli_error($this->db);
+                }
                 
-
+                if(mysqli_num_rows($check) > 0) {
+                    $row = mysqli_fetch_array($check);
+                    $id = $row['room_id'];
+                    
+                    // Start transaction
+                    mysqli_begin_transaction($this->db);
+                    
+                    try {
+                        // Update room status
+                        $sql2 = "UPDATE rooms SET 
+                                checkin = '" . mysqli_real_escape_string($this->db, $checkin) . "',
+                                checkout = '" . mysqli_real_escape_string($this->db, $checkout) . "', 
+                                name = '" . mysqli_real_escape_string($this->db, $name) . "',
+                                phone = '" . mysqli_real_escape_string($this->db, $phone) . "',
+                                book = 'true' 
+                                WHERE room_id = $id";
+                                
+                        if(!mysqli_query($this->db, $sql2)) {
+                            throw new Exception("Failed to update room");
+                        }
+                        
+                        // Update room category counts
+                        $sql3 = "UPDATE room_category SET 
+                                available = available - 1,
+                                booked = booked + 1 
+                                WHERE roomname = '" . mysqli_real_escape_string($this->db, $roomname) . "'";
+                                
+                        if(!mysqli_query($this->db, $sql3)) {
+                            throw new Exception("Failed to update room category");
+                        }
+                        
+                        mysqli_commit($this->db);
+                        
+                        return "Booking Confirmed!\n" .
+                               "Room Type: " . $roomname . "\n" .
+                               "Check-in: " . $checkin . "\n" .
+                               "Check-out: " . $checkout . "\n" .
+                               "Guest Name: " . $name;
+                               
+                    } catch(Exception $e) {
+                        mysqli_rollback($this->db);
+                        error_log("Booking failed: " . $e->getMessage());
+                        return "Error making booking: " . $e->getMessage();
+                    }
+                } else {
+                    return "No rooms available in category: " . $roomname;
+                }
             }
-            
-            
-            
             
              public function edit_all_room($checkin, $checkout, $name, $phone,$id)
             {
@@ -127,10 +175,6 @@
                 
 
             }
-            
-            
-            
-            
             
              public function edit_room_cat($roomname, $room_qnty, $no_bed, $bedtype,$facility,$price,$room_cat)
             {
@@ -168,10 +212,6 @@
                 
 
             }
-            
-            
-            
-            
             
             public function check_login($emailusername,$password)
             {
