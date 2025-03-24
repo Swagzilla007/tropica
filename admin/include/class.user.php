@@ -257,6 +257,49 @@
                 $_SESSION['login']=false;
                 session_destroy();
             }
+
+            public function delete_booking($room_id) {
+                mysqli_begin_transaction($this->db);
+                
+                try {
+                    // Get room category before deletion
+                    $sql = "SELECT room_cat FROM rooms WHERE room_id = $room_id";
+                    $result = mysqli_query($this->db, $sql);
+                    $row = mysqli_fetch_array($result);
+                    $room_cat = $row['room_cat'];
+                    
+                    // Update room status
+                    $sql2 = "UPDATE rooms SET 
+                            checkin = NULL,
+                            checkout = NULL,
+                            name = NULL,
+                            phone = NULL,
+                            book = 'false' 
+                            WHERE room_id = $room_id";
+                            
+                    if(!mysqli_query($this->db, $sql2)) {
+                        throw new Exception("Failed to update room status");
+                    }
+                    
+                    // Update room category counts
+                    $sql3 = "UPDATE room_category SET 
+                            available = available + 1,
+                            booked = booked - 1 
+                            WHERE roomname = '$room_cat'";
+                            
+                    if(!mysqli_query($this->db, $sql3)) {
+                        throw new Exception("Failed to update room category");
+                    }
+                    
+                    mysqli_commit($this->db);
+                    return true;
+                    
+                } catch(Exception $e) {
+                    mysqli_rollback($this->db);
+                    error_log("Booking deletion failed: " . $e->getMessage());
+                    return false;
+                }
+            }
         }
 
 ?>

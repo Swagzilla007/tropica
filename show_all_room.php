@@ -2,6 +2,14 @@
 include_once 'admin/include/class.user.php'; 
 $user=new User();
 
+if(isset($_POST['delete_booking'])) {
+    $room_id = $_POST['room_id'];
+    if($user->delete_booking($room_id)) {
+        $successMsg = "<div class='alert alert-success text-center' style='background: rgba(0,0,0,0.8); color: #ffbb2b; border: 1px solid #ffbb2b; margin: 20px 0; padding: 15px; border-radius: 8px;'>
+            Booking successfully deleted!
+        </div>";
+    }
+}
 
 ?>
 
@@ -68,18 +76,23 @@ $user=new User();
             font-weight: bold;
         }
 
-        .btn-manage {
+        .btn-manage, .btn-delete {
             background-color: rgba(0, 0, 0, 0.8);
             color: #ffbb2b;
             border: 1px solid #ffbb2b;
             padding: 8px 20px;
-            margin-top: 15px;
+            margin: 5px;
             border-radius: 5px;
             transition: all 0.3s ease;
         }
 
-        .btn-manage:hover {
-            background-color: #ffbb2b;
+        .btn-delete {
+            color: #ff4444;
+            border-color: #ff4444;
+        }
+
+        .btn-delete:hover {
+            background-color: #ff4444;
             color: #000;
         }
 
@@ -130,9 +143,10 @@ $user=new User();
             </div>
         </nav>
         
-        
-        
-        <?php
+        <?php 
+        if(isset($successMsg)) {
+            echo $successMsg;
+        }
         
         $sql="SELECT * FROM rooms WHERE book='true'";
         $result = mysqli_query($user->db, $sql);
@@ -145,22 +159,25 @@ $user=new User();
                 {
                     
                     echo "
-                            <div class='row'>
-                            <div class='col-md-2'></div>
-                            <div class='col-md-6 booking-card'>
-                                <h4 class='booking-title'>".$row['room_cat']."</h4><hr>
-                                <h6 class='booking-details'>Checkin: ".$row['checkin']." and checkout: ".$row['checkout']."</h6>
-                                <h6 class='booking-details'>Name: ".$row['name']."</h6>
-                                <h6 class='booking-details'>Phone: ".$row['phone']."</h6>
-                                <h6 class='booking-status'>Booking Condition: ".$row['book']."</h6>
-                            </div>
-                            &nbsp;&nbsp;
-                            <a href='edit_all_room.php?id=".$row['room_id']."'><button class='btn btn-primary btn-manage'>Edit</button></a>
-                            </div>
-                            
-                    
-                    
-                         ";
+                        <div class='row'>
+                        <div class='col-md-2'></div>
+                        <div class='col-md-6 booking-card'>
+                            <h4 class='booking-title'>".$row['room_cat']."</h4><hr>
+                            <h6 class='booking-details'>Checkin: ".$row['checkin']." and checkout: ".$row['checkout']."</h6>
+                            <h6 class='booking-details'>Name: ".$row['name']."</h6>
+                            <h6 class='booking-details'>Phone: ".$row['phone']."</h6>
+                            <h6 class='booking-status'>Booking Condition: ".$row['book']."</h6>
+                        </div>
+                        <div class='col-md-3'>
+                            <a href='edit_all_room.php?id=".$row['room_id']."'>
+                                <button class='btn btn-manage'>Edit</button>
+                            </a>
+                            <form method='POST' style='display: inline;' onsubmit='return confirm(\"Are you sure you want to delete this booking?\");'>
+                                <input type='hidden' name='room_id' value='".$row['room_id']."'>
+                                <button type='submit' name='delete_booking' class='btn btn-delete'>Delete</button>
+                            </form>
+                        </div>   
+                        </div>";
                     
                     
                 }
