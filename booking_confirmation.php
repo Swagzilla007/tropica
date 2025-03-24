@@ -1,5 +1,13 @@
 <?php
 session_start();
+include_once 'admin/include/class.user.php';
+
+// Prevent admins from seeing booking confirmations
+if(isset($_SESSION['login']) && $_SESSION['login'] == true) {
+    header("Location: admin.php");
+    exit();
+}
+
 if(!isset($_SESSION['booking_result'])) {
     header("Location: reservation.php");
     exit();

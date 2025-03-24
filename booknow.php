@@ -1,7 +1,13 @@
 <?php
 session_start();
 include_once 'admin/include/class.user.php'; 
-$user=new User(); 
+$user=new User();
+
+// Prevent admins from booking
+if(isset($_SESSION['login']) && $_SESSION['login'] == true) {
+    header("Location: admin.php");
+    exit();
+}
 
 $roomname=$_GET['roomname'];
 
@@ -200,10 +206,29 @@ if(isset($_REQUEST['submit']))
         $(function() {
             $(".datepicker").datepicker({
                 dateFormat: 'yy-mm-dd',
-                minDate: 0,
+                minDate: new Date(),
+                defaultDate: new Date(),
                 changeMonth: true,
-                changeYear: true
+                changeYear: true,
+                onSelect: function(selectedDate) {
+                    // When checkin date is selected, set minimum date for checkout
+                    if(this.name == "checkin") {
+                        var checkoutDate = $("input[name='checkout']");
+                        var minDate = new Date(selectedDate);
+                        minDate.setDate(minDate.getDate() + 1);
+                        checkoutDate.datepicker("option", "minDate", minDate);
+                    }
+                }
             });
+
+            // Pre-fill dates if passed in URL
+            var urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.has('checkin')) {
+                $("input[name='checkin']").datepicker('setDate', urlParams.get('checkin'));
+            }
+            if(urlParams.has('checkout')) {
+                $("input[name='checkout']").datepicker('setDate', urlParams.get('checkout'));
+            }
         });
     </script>
 </body>

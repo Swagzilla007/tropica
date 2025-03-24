@@ -2,7 +2,11 @@
     include_once 'admin/include/class.user.php'; 
     $user=new User(); 
 
-
+    // Redirect admins away from booking
+    if(isset($_SESSION['login']) && $_SESSION['login'] == true) {
+        header("Location: admin.php");
+        exit();
+    }
 
     if(isset($_REQUEST[ 'submit'])) 
     { 
@@ -12,18 +16,8 @@
         {
             echo $result;
         }
-
-
     }
-        
-
-
-
-
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,8 +42,12 @@
   <script>
   $( function() {
     $( ".datepicker" ).datepicker({
-                  dateFormat : 'yy-mm-dd'
-                });
+        dateFormat : 'yy-mm-dd',
+        minDate: new Date(), // Prevent selecting past dates
+        defaultDate: new Date(), // Set today as default
+        changeMonth: true,
+        changeYear: true
+    });
   } );
   </script>
     
@@ -292,15 +290,6 @@
         </div>
     </div>
     
-    
-    
-    
-    
-
-
-
-
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

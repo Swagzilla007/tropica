@@ -54,19 +54,67 @@ if(isset($_REQUEST[ 'submit']))
   } );
   </script>
 
-    
+    <style>
+        body {
+            background-image: url('images/home.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .well {
+            background: rgba(0, 0, 0, 0.9);
+            border: none;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: #ffbb2b;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            color: #ffbb2b;
+            font-weight: normal;
+        }
+
+        .form-control, .datepicker {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 187, 43, 0.2);
+            border-radius: 8px;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #ffbb2b;
+            color: #000;
+        }
+
+        #click_here a {
+            color: #ffbb2b;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-      
-      
-       <img class="img-responsive" src="images/home_banner.jpg" style="width:100%; height:180px;">      
-        
-
-      <div class="well">
+        <div class="well">
             <h2>EDIT</h2>
-          <h2><?php echo  $row['room_cat']?></h2>h2>
+            <h2><?php echo $row['room_cat']?></h2>
             <hr>
             <form action="" method="post" name="room_category">
               

@@ -31,30 +31,74 @@ if(isset($_GET['q']))
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
 
     <style>
-        .well {
-            background: rgba(0, 0, 0, 0.7);
-            border: none;
-            height: 200px;
-        }
-        
         body {
-            background-image: url('images/home.jpg');
+            background-image: url('images/home.jpg'); /* Fixed path */
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
+            font-family: 'Open Sans', sans-serif;
         }
-        
+
+        .well {
+            background: rgba(0, 0, 0, 0.9);
+            border: none;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
         h4 {
             color: #ffbb2b;
+            margin-bottom: 20px;
         }
-        
+
+        hr {
+            border-color: rgba(255, 187, 43, 0.2);
+        }
+
         ul {
-            color: white;
-            font-size: 13px;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            margin: 10px 0;
+        }
+
+        ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        ul li a:hover {
+            color: #ffbb2b;
+            text-decoration: none;
+            padding-left: 5px;
+        }
+
+        .admin-header {
+            color: #ffbb2b;
+            text-align: center;
+            margin: 30px 0;
+            font-size: 32px;
+        }
+
+        .btn-logout {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #ffbb2b;
+            color: #000;
         }
     </style>
-
-
 </head>
 
 <body>
@@ -73,7 +117,7 @@ if(isset($_GET['q']))
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="admin.php?q=logout">
-                            <button type="button" class="btn btn-danger">Logout</button>
+                            <button type="button" class="btn-logout">Logout</button>
                         </a>
                     </li>
                 </ul>

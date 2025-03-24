@@ -22,6 +22,13 @@ $user=new User();
     <link href="css/shared-styles.css" rel="stylesheet">
     
     <style>
+        body {
+            background-image: url('images/home.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: 'Open Sans', sans-serif;
+        }
         .well {
             background: rgba(0, 0, 0, 0.7);
             border: none;
@@ -35,6 +42,54 @@ $user=new User();
         h6 {
             color: navajowhite;
             font-family: monospace;
+        }
+
+        .room-category {
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 187, 43, 0.1);
+        }
+
+        .category-header {
+            color: #ffbb2b;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .details {
+            color: #fff;
+            margin: 10px 0;
+        }
+
+        .btn-edit {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit:hover {
+            background-color: #ffbb2b;
+            color: #000;
+        }
+
+        .btn-logout {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #ffbb2b;
+            color: #000;
+            transform: translateY(-2px);
         }
     </style>
     
@@ -57,7 +112,7 @@ $user=new User();
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="admin.php?q=logout">
-                            <button type="button" class="btn btn-danger">Logout</button>
+                            <button type="button" class="btn-logout">Logout</button>
                         </a>
                     </li>
                 </ul>
@@ -85,14 +140,14 @@ $user=new User();
                     echo "
                             <div class='row'>
                             <div class='col-md-2'></div>
-                            <div class='col-md-6 well'>
-                                <h4>".$row['roomname']."</h4><hr>
-                                <h6>No of Beds: ".$row['no_bed']." ".$row['bedtype']." bed.</h6>
-                                <h6>Facilities: ".$row['facility']."</h6>
-                                <h6>Price: ".$row['price']." tk/night.</h6>
+                            <div class='col-md-6 room-category'>
+                                <h4 class='category-header'>".$row['roomname']."</h4><hr>
+                                <h6 class='details'>No of Beds: ".$row['no_bed']." ".$row['bedtype']." bed.</h6>
+                                <h6 class='details'>Facilities: ".$row['facility']."</h6>
+                                <h6 class='details'>Price: ".$row['price']." tk/night.</h6>
                             </div>
                             &nbsp;&nbsp;
-                            <a href='admin/edit_room_cat.php?roomname=".$row['roomname']."'><button class='btn btn-primary button'>Edit</button></a>
+                            <a href='admin/edit_room_cat.php?roomname=".$row['roomname']."'><button class='btn btn-primary btn-edit'>Edit</button></a>
                             </div>
                             
                         

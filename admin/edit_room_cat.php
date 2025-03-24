@@ -33,7 +33,67 @@ if(isset($_REQUEST[ 'submit']))
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/reg.css" type="text/css">
-    
+    <style>
+        body {
+            background-image: url('../images/home.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .well {
+            background: rgba(0, 0, 0, 0.9);
+            border: none;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            color: #ffbb2b;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            color: #ffbb2b;
+        }
+
+        .form-control, select, textarea {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 187, 43, 0.2);
+            color: #fff;
+            border-radius: 8px;
+        }
+
+        select {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 5px 10px;
+        }
+
+        .btn-primary {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background-color: #ffbb2b;
+            color: #000;
+        }
+
+        #click_here a {
+            color: #ffbb2b;
+            text-decoration: none;
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>

@@ -1,46 +1,98 @@
 body {
-    background-image: url('../../images/home_bg.jpg');
+    background-image: url('../../images/home.jpg'); /* Fixed path to reach main images folder */
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Open Sans', sans-serif;
 }
 
 h2 {
     text-align: center;
     color: #ffbb2b;
+    margin-bottom: 30px;
 }
 
 #click_here {
-    margin-top: 10px;
+    margin-top: 20px;
     text-align: center;
-    
 }
 
-/*
+#click_here a {
+    color: #ffbb2b;
+    text-decoration: none;
+}
+
+#click_here a:hover {
+    text-decoration: underline;
+}
+
 .well {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.9);
     border: none;
-   
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 50px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
 }
-*/
 
-.container
-{
+.container {
     width: 60%;
     margin-top: 10px;
 }
 
-label
-{
-    color:#ffbb2b;
+label {
+    color: #ffbb2b;
     font-size: 13px;
-    font-weight: 100;
+    font-weight: normal;
 }
 
-.button
-{
-    
+.button {
     width: 100px;
     float: right;
     font-size: 13px;
-    
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 187, 43, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    height: 45px;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffbb2b;
+    box-shadow: 0 0 8px rgba(255, 187, 43, 0.2);
+    color: #fff;
+}
+
+.btn-primary {
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #ffbb2b;
+    border: 1px solid #ffbb2b;
+    padding: 10px 25px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #ffbb2b;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+select {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border: 1px solid rgba(255, 187, 43, 0.2);
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+textarea {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 187, 43, 0.2) !important;
+    color: #fff !important;
 }

@@ -22,6 +22,13 @@ $user=new User();
     <link href="css/shared-styles.css" rel="stylesheet">
     
     <style>
+        body {
+            background-image: url('images/home.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: 'Open Sans', sans-serif;
+        }
         .well {
             background: rgba(0, 0, 0, 0.7);
             border: none;
@@ -35,6 +42,60 @@ $user=new User();
         h6 {
             color: navajowhite;
             font-family: monospace;
+        }
+
+        .booking-card {
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 187, 43, 0.1);
+        }
+
+        .booking-title {
+            color: #ffbb2b;
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .booking-details {
+            color: #fff;
+            margin: 8px 0;
+        }
+
+        .booking-status {
+            color: #ffbb2b;
+            font-weight: bold;
+        }
+
+        .btn-manage {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            padding: 8px 20px;
+            margin-top: 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-manage:hover {
+            background-color: #ffbb2b;
+            color: #000;
+        }
+
+        .btn-logout {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            padding: 8px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #ffbb2b;
+            color: #000;
+            transform: translateY(-2px);
         }
     </style>
     
@@ -58,7 +119,7 @@ $user=new User();
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="admin.php?q=logout">
-                            <button type="button" class="btn btn-danger">Logout</button>
+                            <button type="button" class="btn-logout">Logout</button>
                         </a>
                     </li>
                 </ul>
@@ -86,15 +147,15 @@ $user=new User();
                     echo "
                             <div class='row'>
                             <div class='col-md-2'></div>
-                            <div class='col-md-6 well'>
-                                <h4>".$row['room_cat']."</h4><hr>
-                                <h6>Checkin: ".$row['checkin']." and checkout: ".$row['checkout']."</h6>
-                                <h6>Name: ".$row['name']."</h6>
-                                <h6>Phone: ".$row['phone']."</h6>
-                                <h6>Booking Condition: ".$row['book']."</h6>
+                            <div class='col-md-6 booking-card'>
+                                <h4 class='booking-title'>".$row['room_cat']."</h4><hr>
+                                <h6 class='booking-details'>Checkin: ".$row['checkin']." and checkout: ".$row['checkout']."</h6>
+                                <h6 class='booking-details'>Name: ".$row['name']."</h6>
+                                <h6 class='booking-details'>Phone: ".$row['phone']."</h6>
+                                <h6 class='booking-status'>Booking Condition: ".$row['book']."</h6>
                             </div>
                             &nbsp;&nbsp;
-                            <a href='edit_all_room.php?id=".$row['room_id']."'><button class='btn btn-primary button'>Edit</button></a>
+                            <a href='edit_all_room.php?id=".$row['room_id']."'><button class='btn btn-primary btn-manage'>Edit</button></a>
                             </div>
                             
                     
