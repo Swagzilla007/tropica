@@ -204,6 +204,13 @@ if (!isset($_SESSION['welcomed'])) {
             z-index: 999; /* Below the banner */
             opacity: 1;
             transition: opacity 0.5s ease-out;
+            animation: fadeOutWelcome 2s ease-out forwards;
+        }
+
+        @keyframes fadeOutWelcome {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
         }
 
         .welcome-message {
@@ -238,7 +245,7 @@ if (!isset($_SESSION['welcomed'])) {
 
     <!-- Welcome message - Only shown on first visit -->
     <?php if ($showWelcome): ?>
-    <div class="welcome-overlay">
+    <div class="welcome-overlay" id="welcomeOverlay">
         <div class="welcome-message">
             <h1>Welcome to Tropica</h1>
             <p>Your Luxury Beach Retreat</p>
@@ -333,5 +340,16 @@ if (!isset($_SESSION['welcomed'])) {
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/transitions.js"></script>
+    <script>
+        // Handle welcome message fade
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeOverlay = document.getElementById('welcomeOverlay');
+            if (welcomeOverlay) {
+                setTimeout(() => {
+                    welcomeOverlay.style.display = 'none';
+                }, 2000);
+            }
+        });
+    </script>
 </body>
 </html>

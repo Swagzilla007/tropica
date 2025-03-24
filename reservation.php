@@ -55,38 +55,94 @@
     
     
     <style>
-        .well {
-            background: rgba(0, 0, 0, 0.7);
-            border: none;
-            height: 200px;
-        }
-        
         body {
             background-image: url('images/home.jpg');
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .well {
+            background: rgba(0, 0, 0, 0.9);
+            border: none;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            height: auto;
+        }
+        
+        .availability-form {
+            margin-bottom: 30px;
+        }
+        
+        .datepicker {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 187, 43, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            padding: 10px 15px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .btn-check {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffbb2b;
+            border: 1px solid #ffbb2b;
+            padding: 10px 25px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        
+        .btn-check:hover {
+            background-color: #ffbb2b;
+            color: #000;
+            transform: scale(1.05);
+        }
+        
+        .available-rooms {
+            margin-top: 30px;
+        }
+        
+        .room-item {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 187, 43, 0.1);
         }
         
         h4 {
             color: #ffbb2b;
+            font-size: 22px;
+            margin-bottom: 15px;
         }
-        h6, label
-        {
-            color: navajowhite;
-            font-family:  monospace;
-        }
-        label
-        {
-            font-size: 13px;
-            font-weight: 100;
-        }
-        .social-icon {
-            width: 24px;
-            height: 24px;
-            margin-top: -5px;
+        
+        h6 {
+            color: #fff;
+            font-size: 14px;
+            margin: 8px 0;
         }
 
+        .no-rooms-message {
+            color: #ffbb2b;
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+        }
+
+        .availability-section {
+            margin-top: 60px;
+            margin-bottom: 40px;
+        }
+
+        .results-section {
+            margin-top: 40px;
+        }
     </style>
     
     
@@ -113,76 +169,77 @@
             </div>
         </nav>
         
-       <div class='row'>
-        <div class='col-md-4'></div>
-        <div class='col-md-5 well'>
-         <form action="" method="post" name="room_category">
-              
-              
-               <div class="form-group">
-                    <label for="checkin">Check In :</label>&nbsp;&nbsp;&nbsp;
-                    <input type="text" class="datepicker" name="checkin">
-
+        <div class="availability-section">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 well">
+                    <h4>Check Room Availability</h4>
+                    <form action="" method="post" class="availability-form">
+                        <div class="form-group">
+                            <label for="checkin">Check In Date:</label>
+                            <input type="text" class="datepicker" name="checkin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="checkout">Check Out Date:</label>
+                            <input type="text" class="datepicker" name="checkout" required>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-check" name="submit">Check Availability</button>
+                        </div>
+                    </form>
                 </div>
-               
-               <div class="form-group">
-                    <label for="checkout">Check Out:</label>&nbsp;&nbsp;
-                    <input type="text" class="datepicker" name="checkout">
-                </div>
-                 
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="submit" class="btn btn-primary button" name="submit">Check Availability</button>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
 
-            </form>
-           </div>
-           <div class="col-md-3"></div>
-        </div> 
-<?php   
-        
-         if(isset($_REQUEST[ 'submit']))
-         {
-            if(mysqli_num_rows($result) > 0)
+        <div class="results-section">
+            <?php   
+            
+            if(isset($_REQUEST[ 'submit']))
             {
-                while($row = mysqli_fetch_array($result))
+                if(mysqli_num_rows($result) > 0)
                 {
-                    
-                    $room_cat=$row['room_cat'];
-                    $sql="SELECT * FROM room_category WHERE roomname='$room_cat'";
-                    $query = mysqli_query($user->db, $sql);
-                    $row2 = mysqli_fetch_array($query);
-                    
-                   echo "
-                            <div class='row'>
-                            <div class='col-md-4'></div>
-                            <div class='col-md-5 well'>
-                                <h4>".$row2['roomname']."</h4><hr>
-                                <h6>No of Beds: ".$row2['no_bed']." ".$row2['bedtype']." bed.</h6>
-                                <h6>Available Rooms: ".$row2['available']."</h6>
-                                <h6>Facilities: ".$row2['facility']."</h6>
-                                <h6>Price: ".$row2['price']." tk/night.</h6>
-                            </div>
-                            <div class='col-md-3'>
-                                <a href='./booknow.php?roomname=".$row2['roomname']."'><button class='btn btn-primary button'>Book Now</button></a>
-                            </div>   
-                            </div>
-                            
+                    while($row = mysqli_fetch_array($result))
+                    {
+                        
+                        $room_cat=$row['room_cat'];
+                        $sql="SELECT * FROM room_category WHERE roomname='$room_cat'";
+                        $query = mysqli_query($user->db, $sql);
+                        $row2 = mysqli_fetch_array($query);
+                        
+                       echo "
+                                <div class='row'>
+                                <div class='col-md-4'></div>
+                                <div class='col-md-5 well'>
+                                    <h4>".$row2['roomname']."</h4><hr>
+                                    <h6>No of Beds: ".$row2['no_bed']." ".$row2['bedtype']." bed.</h6>
+                                    <h6>Available Rooms: ".$row2['available']."</h6>
+                                    <h6>Facilities: ".$row2['facility']."</h6>
+                                    <h6>Price: ".$row2['price']." tk/night.</h6>
+                                </div>
+                                <div class='col-md-3'>
+                                    <a href='./booknow.php?roomname=".$row2['roomname']."'><button class='btn btn-primary button'>Book Now</button></a>
+                                </div>   
+                                </div>
+                                
+                                
                             
                         
+                             ";
+                        
+                        
+                    }
                     
-                         ";
                     
-                    
+                              
                 }
-                
-                
-                          
             }
-         }
-        
-        
-?>
-
-
+            
+            
+            ?>
+        </div>
     </div>
     
     
