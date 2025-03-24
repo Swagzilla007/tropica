@@ -149,29 +149,72 @@ $user=new User();
         }
 
         /* Updated Modal Styles */
+        .modal {
+            padding: 0 !important;
+        }
+
+        .modal-dialog {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) !important;
+        }
+
         .modal-content {
             background: rgba(0, 0, 0, 0.95);
             border: 1px solid #ffbb2b;
             border-radius: 15px;
         }
 
-        .modal-backdrop {
-            opacity: 0.7 !important; /* Reduce darkness of backdrop */
+        .modal-body {
+            padding: 30px;
         }
 
         .room-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
-            padding: 20px;
+            padding: 0;
         }
 
-        .room-gallery img {
+        .room-gallery .gallery-item {
+            position: relative;
             width: 100%;
-            height: 250px;
+            padding-bottom: 66.67%; /* 3:2 Aspect Ratio */
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .room-gallery .gallery-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border-radius: 10px;
             transition: transform 0.3s ease;
+        }
+
+        .room-gallery .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .modal-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 187, 43, 0.2);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            color: #ffbb2b;
+        }
+
+        .close {
+            font-size: 30px;
+            color: #ffbb2b;
         }
     </style>
     
@@ -301,22 +344,36 @@ $user=new User();
             let gallery = '';
             images.forEach(img => {
                 gallery += `
-                    <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="gallery-item">
                         <img src="${img}" 
                              alt="${roomName}" 
-                             class="img-responsive" 
-                             style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
+                             class="img-responsive">
                     </div>`;
             });
             
             $('#roomModal .modal-title').text(roomName + ' Photos');
             $('#roomModal .room-gallery').html(gallery);
             
-            // Show modal with specific options
+            // Show modal with updated position
             $('#roomModal').modal({
                 backdrop: 'static',
                 keyboard: true,
                 show: true
+            });
+
+            // Center modal in viewport
+            $('#roomModal').on('shown.bs.modal', function() {
+                const windowHeight = $(window).height();
+                const modalHeight = $('.modal-dialog').height();
+                const scrollTop = $(window).scrollTop();
+                
+                if (modalHeight > windowHeight) {
+                    $('.modal-dialog').css({
+                        position: 'absolute',
+                        top: scrollTop + 30,
+                        transform: 'translate(-50%, 0)'
+                    });
+                }
             });
         }
 
@@ -335,6 +392,14 @@ $user=new User();
         // Handle back button
         $(window).on('popstate', function() {
             $('#roomModal').modal('hide');
+        });
+
+        // Ensure modal always shows at top
+        $('#roomModal').on('show.bs.modal', function () {
+            setTimeout(() => {
+                $(this).scrollTop(0);
+                $('body').scrollTop(0);
+            }, 100);
         });
     });
     </script>
