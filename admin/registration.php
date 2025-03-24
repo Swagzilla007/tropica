@@ -1,27 +1,23 @@
 <?php
 include_once 'include/class.user.php'; 
-$user=new User(); 
-if(isset($_REQUEST[ 'submit'])) 
+$user=new User();
+$message = '';
+
+if(isset($_REQUEST['submit'])) 
 { 
     extract($_REQUEST); 
-    $register=$user->reg_user($fullname, $uname, $upass, $uemail); 
+    $register = $user->reg_user($fullname, $uname, $upass, $uemail); 
     if($register) 
     { 
-        echo "
-<script type='text/javascript'>
-    alert('Your Manager has been Added Successfully');
-</script>"; 
-        echo "
-<script type='text/javascript'>
-    window.location.href = '../admin.php';
-</script>"; 
+        $message = "<div class='alert alert-success text-center' style='background: rgba(0,0,0,0.8); color: #ffbb2b; border: 1px solid #ffbb2b; margin-bottom: 20px;'>
+                        Manager Added Successfully!
+                    </div>";
     } 
     else 
     {
-        echo "
-<script type='text/javascript'>
-    alert('Registration failed! username or email already exists');
-</script>";
+        $message = "<div class='alert alert-danger text-center' style='background: rgba(0,0,0,0.8); color: #ff4444; border: 1px solid #ff4444; margin-bottom: 20px;'>
+                        Registration failed! Username or email already exists
+                    </div>";
     }
 } 
 ?>
@@ -164,6 +160,7 @@ if(isset($_REQUEST[ 'submit']))
         <div class="well">
             <h2 class="registration-title">Add New Manager</h2>
             <hr>
+            <?php if($message) echo $message; ?>
             <form action="" method="post" name="reg">
                 <div class="form-group">
                     <label for="fullname">Full Name:</label>

@@ -246,9 +246,9 @@ $user=new User();
                                 <h4 class='room-preview' data-images='".$roomImagesJson."' onclick='showRoomImages(this)'>"
                                     .$row['roomname']." <small>(Click to view photos)</small>
                                 </h4><hr>
-                                <h6><i class='glyphicon glyphicon-bed'></i> ".$row['no_bed']." ".$row['bedtype']." bed</h6>
-                                <h6><i class='glyphicon glyphicon-check'></i> ".$row['facility']."</h6>
-                                <h6><i class='glyphicon glyphicon-tag'></i> ".$row['price']." tk/night</h6>
+                                <h6>No of Beds: ".$row['no_bed']." ".$row['bedtype']." bed.</h6>
+                                <h6>Facilities: ".$row['facility']."</h6>
+                                <h6>Price: LKR ".$row['price']."/night.</h6>
                             </div>
                             <div class='col-md-3'>
                                 <a href='./booknow.php?roomname=".$row['roomname']."'><button class='btn btn-booking'>Book Now</button> </a>

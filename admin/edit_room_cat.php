@@ -3,25 +3,23 @@ include_once 'include/class.user.php';
 $user=new User(); 
 
 $room_cat=$_GET['roomname'];
+$message = '';
 
 $sql="SELECT * FROM room_category WHERE roomname='$room_cat'";
 $query=mysqli_query($user->db, $sql);
 $row = mysqli_fetch_array($query);
- 
 
-if(isset($_REQUEST[ 'submit'])) 
+if(isset($_REQUEST['submit'])) 
 { 
     extract($_REQUEST); 
-    $result=$user->edit_room_cat($roomname, $room_qnty, $no_bed, $bedtype,$facility,$price,$room_cat);
-    if($result)
-    {
-        echo "<script type='text/javascript'>
-              alert('".$result."');
-         </script>";
-    }
-
-   
-} 
+    $result = $user->edit_room_cat($roomname, $room_qnty, $no_bed, $bedtype, $facility, $price, $room_cat);
+    
+    // Store message in variable for display
+    $message = "<div class='alert " . 
+               (strpos($result, 'Successfully') !== false ? 'alert-success' : 'alert-danger') . 
+               " text-center' style='margin-bottom: 20px;'>" . 
+               htmlspecialchars($result) . "</div>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -99,8 +97,9 @@ if(isset($_REQUEST[ 'submit']))
 <body>
     <div class="container">
         <div class="well">
-            <h2>Add Room Category</h2>
+            <h2>Edit Room Category</h2>
             <hr>
+            <?php if($message) echo $message; ?>
             <form action="" method="post" name="room_category">
                 <div class="form-group">
                     <label for="roomname">Room Type Name:</label>

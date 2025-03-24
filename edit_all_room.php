@@ -2,31 +2,25 @@
     include_once 'admin/include/class.user.php'; 
     $user=new User(); 
 
-$id=$_GET['id'];
+    $id=$_GET['id'];
+    $sql="SELECT * FROM rooms WHERE room_id='$id'";
+    $query=mysqli_query($user->db, $sql);
+    $row = mysqli_fetch_array($query);
 
-$sql="SELECT * FROM rooms WHERE room_id='$id'";
-$query=mysqli_query($user->db, $sql);
-$row = mysqli_fetch_array($query);
- 
-
-if(isset($_REQUEST[ 'submit'])) 
-{ 
-    extract($_REQUEST); 
-    $result=$user->edit_all_room($checkin, $checkout, $name, $phone,$id);
-    if($result)
-    {
-        echo "<script type='text/javascript'>
-              alert('".$result."');
-         </script>";
+    $message = '';
+    
+    if(isset($_REQUEST['submit'])) 
+    { 
+        extract($_REQUEST); 
+        $result = $user->edit_all_room($checkin, $checkout, $name, $phone, $id);
+        
+        // Store message in variable for display
+        $message = "<div class='alert " . 
+                   (strpos($result, 'Successfully') !== false ? 'alert-success' : 'alert-danger') . 
+                   " text-center' style='margin-top: 20px;'>" . 
+                   htmlspecialchars($result) . "</div>";
     }
-
-   
-} 
 ?>
-
-
-?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -113,12 +107,11 @@ if(isset($_REQUEST[ 'submit']))
 <body>
     <div class="container">
         <div class="well">
-            <h2>EDIT</h2>
+            <h2>Edit Booking Details</h2>
             <h2><?php echo $row['room_cat']?></h2>
             <hr>
+            <?php if($message) echo $message; ?>
             <form action="" method="post" name="room_category">
-              
-              
                <div class="form-group">
                     <label for="checkin">Check In :</label>&nbsp;&nbsp;&nbsp;
                     <input type="text" class="datepicker" name="checkin" value="<?php echo $row['checkin']?>">
@@ -138,40 +131,20 @@ if(isset($_REQUEST[ 'submit']))
                     <input type="text" class="form-control" name="phone" value="<?php echo $row['phone']?>" required>
                 </div>
                  
-               
                 <button type="submit" class="btn btn-lg btn-primary button" name="submit">Update</button>
 
                <br>
                 <div id="click_here">
                     <a href="admin.php">Back to Admin Panel</a>
                 </div>
-
-
             </form>
         </div>
-        
-        
-
-
-
     </div>
-    
-    
-    
-    
-    
-
-
-
-
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    
 </body>
 
 </html>

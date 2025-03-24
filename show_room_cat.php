@@ -144,7 +144,7 @@ $user=new User();
                                 <h4 class='category-header'>".$row['roomname']."</h4><hr>
                                 <h6 class='details'>No of Beds: ".$row['no_bed']." ".$row['bedtype']." bed.</h6>
                                 <h6 class='details'>Facilities: ".$row['facility']."</h6>
-                                <h6 class='details'>Price: ".$row['price']." tk/night.</h6>
+                                <h6 class='details'>Price: LKR ".$row['price']."/night.</h6>
                             </div>
                             &nbsp;&nbsp;
                             <a href='admin/edit_room_cat.php?roomname=".$row['roomname']."'><button class='btn btn-primary btn-edit'>Edit</button></a>

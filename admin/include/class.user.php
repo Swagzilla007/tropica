@@ -156,61 +156,76 @@
                 }
             }
             
-             public function edit_all_room($checkin, $checkout, $name, $phone,$id)
+            public function edit_all_room($checkin, $checkout, $name, $phone, $id)
             {
-                                
-                        $sql2="UPDATE rooms  SET checkin='$checkin', checkout='$checkout', name='$name', phone='$phone', book='true' WHERE room_id=$id";
-                         $send=mysqli_query($this->db,$sql2);
-                        if($send)
-                        {
-                            $result="Your Room has been booked!!";
-                        }
-                        else
-                        {
-                            $result="Sorry, Internel Error";
-                        }
+                // Start transaction
+                mysqli_begin_transaction($this->db);
+                
+                try {
+                    // Update room details
+                    $sql2 = "UPDATE rooms SET 
+                            checkin = '" . mysqli_real_escape_string($this->db, $checkin) . "',
+                            checkout = '" . mysqli_real_escape_string($this->db, $checkout) . "',
+                            name = '" . mysqli_real_escape_string($this->db, $name) . "',
+                            phone = '" . mysqli_real_escape_string($this->db, $phone) . "'
+                            WHERE room_id = $id";
+                            
+                    if(!mysqli_query($this->db, $sql2)) {
+                        throw new Exception("Failed to update room details");
+                    }
                     
-                
-                    return $result;
-                
-
+                    mysqli_commit($this->db);
+                    return "Booking Updated Successfully!";
+                    
+                } catch(Exception $e) {
+                    mysqli_rollback($this->db);
+                    error_log("Booking update failed: " . $e->getMessage());
+                    return "Error updating booking: " . $e->getMessage();
+                }
             }
             
-             public function edit_room_cat($roomname, $room_qnty, $no_bed, $bedtype,$facility,$price,$room_cat)
+            public function edit_room_cat($roomname, $room_qnty, $no_bed, $bedtype, $facility, $price, $room_cat)
             {
-                    
-                 
-                        $sql2="DELETE FROM rooms WHERE room_cat='$room_cat'";
-                        mysqli_query($this->db,$sql2);
-                 
-                 
-                        for($i=0;$i<$room_qnty;$i++)
-                        {
-                            $sql3="INSERT INTO rooms SET room_cat='$roomname', book='false'";
-                            mysqli_query($this->db,$sql3);
-
-                        }
-
-                 
-                        $available=$room_qnty;
-                        $booked=0;
-                 
-                        $sql="UPDATE room_category  SET roomname='$roomname', available='$available', booked='$booked', room_qnty='$room_qnty', no_bed='$no_bed', bedtype='$bedtype', facility='$facility', price='$price' WHERE roomname='$room_cat'";
-                         $send=mysqli_query($this->db,$sql);
-                        if($send)
-                        {
-                            $result="Updated Successfully!!";
-                        }
-                        else
-                        {
-                            $result="Sorry, Internel Error";
-                        }
-  
-                    
+                mysqli_begin_transaction($this->db);
                 
-                    return $result;
-                
-
+                try {
+                    // Delete existing rooms
+                    $sql2 = "DELETE FROM rooms WHERE room_cat='$room_cat'";
+                    mysqli_query($this->db, $sql2);
+                    
+                    // Add new rooms
+                    for($i=0; $i<$room_qnty; $i++) {
+                        $sql3 = "INSERT INTO rooms SET room_cat='$roomname', book='false'";
+                        mysqli_query($this->db, $sql3);
+                    }
+                    
+                    $available = $room_qnty;
+                    $booked = 0;
+                    
+                    // Update category
+                    $sql = "UPDATE room_category SET 
+                            roomname='$roomname', 
+                            available='$available', 
+                            booked='$booked', 
+                            room_qnty='$room_qnty', 
+                            no_bed='$no_bed', 
+                            bedtype='$bedtype', 
+                            facility='$facility', 
+                            price='$price' 
+                            WHERE roomname='$room_cat'";
+                            
+                    $send = mysqli_query($this->db, $sql);
+                    
+                    if($send) {
+                        mysqli_commit($this->db);
+                        return "Room Category Updated Successfully! Total Rooms: $room_qnty";
+                    } else {
+                        throw new Exception("Failed to update room category");
+                    }
+                } catch(Exception $e) {
+                    mysqli_rollback($this->db);
+                    return "Error: " . $e->getMessage();
+                }
             }
             
             public function check_login($emailusername,$password)

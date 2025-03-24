@@ -269,7 +269,7 @@
                                 <h6>No of Beds: ".$row['no_bed']." ".$row['bedtype']." bed.</h6>
                                 <h6>Available Rooms: <span style='color: #ffbb2b'>".$row['available_rooms']."</span> out of ".$row['total_rooms']."</h6>
                                 <h6>Facilities: ".$row['facility']."</h6>
-                                <h6>Price: ".$row['price']." tk/night.</h6>
+                                <h6>Price: LKR ".$row['price']."/night.</h6>
                             </div>
                             <div class='col-md-3'>
                                 <a href='./booknow.php?roomname=".$row['roomname']."&checkin=".$checkin."&checkout=".$checkout."'>
