@@ -55,6 +55,7 @@ A complete hotel booking and management system for Tropica Hotel located in Chil
 3. Import database from SQL file
 4. Configure database connection
 5. Access via localhost/tropica
+6. Default admin credentials:Email-admin@hotel.com, Password-admin
 
 ## Developer
 
