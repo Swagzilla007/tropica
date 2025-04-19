@@ -2,6 +2,12 @@
 
 A complete hotel booking and management system for Tropica Hotel located in Chilaw, Sri Lanka.
 
+![](<screenshots/Screenshot-(184).png>)
+![](<screenshots/Screenshot-(185).png>)
+![](<screenshots/Screenshot-(186).png>)
+![](<screenshots/Screenshot-(190).png>)
+![](<screenshots/Screenshot-(193).png>)
+
 ## Features
 
 ### Guest Features
